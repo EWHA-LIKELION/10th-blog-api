@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from .serializers import *
 from .models import *
-from django.contrib import auth
 from rest_framework import views
 from rest_framework.response import Response
 
@@ -47,21 +46,3 @@ class CommentView(views.APIView):
             serializer.save()
             return Response({'message':'댓글 작성 성공', 'data':serializer.data})
         return Response({'message':'댓글 작성 실패', 'error':serializer.errors})
-
-
-class SignUpView(views.APIView):
-    def post(self, request):
-        serializer=UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message':'회원가입 성공', 'data':serializer.data})
-        return Response({'message':'회원가입 실패', 'error':serializer.errors})
-
-
-class LoginView(views.APIView):
-    def post(self, request):
-        serializer = UserLoginSerializer(data=request.data)
-
-        if serializer.is_valid():
-            return Response({"message": "로그인 성공", 'data':serializer.data})
-        return Response({"message": "로그인 실패", 'error':serializer.errors})
